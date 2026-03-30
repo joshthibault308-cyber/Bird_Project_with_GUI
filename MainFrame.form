@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="MainFrame">
+  <grid id="27dc6" binding="mainPanel" default-binding="true" layout-manager="BorderLayout" hgap="0" vgap="0">
+    <constraints>
+      <xy x="20" y="20" width="2470" height="2088"/>
+    </constraints>
+    <properties>
+      <alignmentX value="0.5"/>
+      <alignmentY value="0.5"/>
+    </properties>
+    <border type="none"/>
+    <children>
+      <grid id="78374" binding="buttonPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints border-constraint="North"/>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <grid id="d902f" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-5383962"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <grid id="20030" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="0">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <background color="-5383962"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <component id="6f" class="javax.swing.JLabel">
+                    <constraints/>
+                    <properties>
+                      <font size="40"/>
+                      <text value="Bird Directory"/>
+                    </properties>
+                  </component>
+                  <component id="8c0d9" class="javax.swing.JLabel" binding="birdImage">
+                    <constraints/>
+                    <properties>
+                      <text value=""/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+              <grid id="c626a" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="3">
+                <constraints>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <background color="-5383962"/>
+                  <enabled value="true"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <component id="cb837" class="javax.swing.JButton" binding="highestAttributeButton">
+                    <constraints/>
+                    <properties>
+                      <background color="-1120894"/>
+                      <borderPainted value="true"/>
+                      <enabled value="true"/>
+                      <font/>
+                      <foreground color="-16777216"/>
+                      <hideActionText value="false"/>
+                      <horizontalTextPosition value="0"/>
+                      <iconTextGap value="4"/>
+                      <inheritsPopupMenu value="false"/>
+                      <maximumSize width="120" height="34"/>
+                      <minimumSize width="120" height="34"/>
+                      <opaque value="true"/>
+                      <preferredSize width="120" height="34"/>
+                      <text value="Highest Attribute"/>
+                    </properties>
+                    <clientProperties>
+                      <html.disable class="java.lang.Boolean" value="false"/>
+                    </clientProperties>
+                  </component>
+                  <component id="f884a" class="javax.swing.JButton" binding="fileButton">
+                    <constraints/>
+                    <properties>
+                      <background color="-15748882"/>
+                      <enabled value="true"/>
+                      <foreground color="-525825"/>
+                      <horizontalTextPosition value="0"/>
+                      <maximumSize width="34" height="34"/>
+                      <minimumSize width="34" height="34"/>
+                      <preferredSize width="34" height="34"/>
+                      <text value="Button"/>
+                    </properties>
+                  </component>
+                  <component id="fcdf2" class="javax.swing.JButton" binding="addBirdsManuallyButton">
+                    <constraints/>
+                    <properties>
+                      <background color="-14815744"/>
+                      <foreground color="-525825"/>
+                      <horizontalTextPosition value="0"/>
+                      <maximumSize width="34" height="34"/>
+                      <minimumSize width="34" height="34"/>
+                      <preferredSize width="34" height="34"/>
+                      <text value=""/>
+                    </properties>
+                  </component>
+                  <component id="9df8a" class="javax.swing.JButton" binding="updateButton">
+                    <constraints/>
+                    <properties>
+                      <background color="-33496"/>
+                      <enabled value="true"/>
+                      <foreground color="-525825"/>
+                      <horizontalTextPosition value="0"/>
+                      <maximumSize width="34" height="34"/>
+                      <minimumSize width="34" height="34"/>
+                      <preferredSize width="34" height="34"/>
+                      <text value="Button"/>
+                    </properties>
+                  </component>
+                  <component id="b8e17" class="javax.swing.JButton" binding="removeButton">
+                    <constraints/>
+                    <properties>
+                      <background color="-1168876"/>
+                      <foreground color="-525825"/>
+                      <horizontalTextPosition value="0"/>
+                      <maximumSize width="34" height="34"/>
+                      <minimumSize width="34" height="34"/>
+                      <preferredSize width="34" height="34"/>
+                      <text value=""/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+            </children>
+          </grid>
+        </children>
+      </grid>
+      <scrollpane id="ad58a" binding="tableScrollPane">
+        <constraints border-constraint="Center"/>
+        <properties>
+          <background color="-1120894"/>
+        </properties>
+        <border type="line">
+          <color color="-16777216"/>
+        </border>
+        <children>
+          <component id="5f7f4" class="javax.swing.JTable" binding="mainTable">
+            <constraints/>
+            <properties>
+              <autoCreateRowSorter value="false"/>
+              <background color="-1120894"/>
+              <focusable value="false"/>
+              <foreground color="-16777216"/>
+              <gridColor color="-525825"/>
+              <inheritsPopupMenu value="false"/>
+              <intercellSpacing width="1" height="1"/>
+            </properties>
+          </component>
+        </children>
+      </scrollpane>
+    </children>
+  </grid>
+</form>
