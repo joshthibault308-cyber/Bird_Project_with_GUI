@@ -1,7 +1,7 @@
 /**
  * Joshua Thibault
  * CEN 3024 - Software Development I
- * March 24th, 2026
+ * April 8th, 2026
  * MainClass.java
  * This class will add a bird to the system from a file, add a bird manually, remove a bird from the system,
  * update a bird in the system, show the highest values of each attribute, and show the list of each bird in the system.
@@ -9,9 +9,12 @@
  */
 
 import javax.swing.*;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.FileInputStream;
 import java.util.Map;
+import static java.sql.DriverManager.getConnection;
 
 public class MainClass {
 

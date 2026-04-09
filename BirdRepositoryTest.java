@@ -1,7 +1,7 @@
 /**
  * Joshua Thibault
  * CEN 3024 - Software Development I
- * March 30th, 2026
+ * April 8th, 2026
  * BirdRepositoryTest.java
  * This class will test the different functions the system will have.
  */
@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import javax.swing.*;
 import java.io.File;
+import java.sql.*;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -33,7 +34,11 @@ class BirdRepositoryTest {
     @BeforeEach
     void setUp() {
 
-        bird = new Bird(1, "Sparrow", "Brown", 4.13F, "Conical", 'm', 8.66F, "Diurnal");
+        bird = new Bird(40, "Sparrow", "Brown", 4.13F, "Conical", 'm', 8.66F, "Diurnal");
+        BirdRepository.usersUsername = "root";
+        BirdRepository.usersPassword = new char[]{'Y', 'e', 'l', 'l', 'o', 'w', '2'};
+        BirdRepository.databaseName = "birddatabase";
+        BirdRepository.tableName = "birds";
 
     }
 
@@ -47,7 +52,19 @@ class BirdRepositoryTest {
     @AfterEach
     void tearDown() {
 
-        BirdRepository.birdList.clear();
+        try {
+
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + BirdRepository.databaseName, BirdRepository.usersUsername, new String(BirdRepository.usersPassword));
+            PreparedStatement statement = connection.prepareStatement("DELETE FROM  " + BirdRepository.tableName + " WHERE ID = ?");
+
+            statement.setInt(1, bird.ID);
+            statement.executeUpdate();
+
+
+        } catch (SQLException e) {
+
+        }
+
 
     }
 
@@ -77,8 +94,8 @@ class BirdRepositoryTest {
     @DisplayName("Already used ID bird test")
     void addBirdWithUsedID() {
 
-        //BirdRepository.addBird(bird.ID, bird.species, bird.color, bird.size, bird.beakShape, bird.gender, bird.wingspan, bird.activityPattern);
-        assertTrue(BirdRepository.addBird(bird.ID, bird.species, bird.color, bird.size, bird.beakShape, bird.gender, bird.wingspan, bird.activityPattern), "Bird was not added.");
+        BirdRepository.addBird(bird.ID, bird.species, bird.color, bird.size, bird.beakShape, bird.gender, bird.wingspan, bird.activityPattern);
+        assertFalse(BirdRepository.addBird(bird.ID, bird.species, bird.color, bird.size, bird.beakShape, bird.gender, bird.wingspan, bird.activityPattern), "Bird was not added.");
 
     }
 
@@ -146,13 +163,13 @@ class BirdRepositoryTest {
 
         BirdRepository.addBird(bird.ID, bird.species, bird.color, bird.size, bird.beakShape, bird.gender, bird.wingspan, bird.activityPattern);
 
-        birdinArrayList = (BirdRepository.getBird(bird.getID()) != null);
+        birdinArrayList = (BirdRepository.getBird(bird.getID()));
 
         assertTrue(birdinArrayList, "Bird is not in list.");
 
-        BirdRepository.removeBird(bird);
+        BirdRepository.removeBird(bird.ID);
 
-        assertNotNull(BirdRepository.getBird(bird.getID()));
+        assertFalse(BirdRepository.getBird(bird.getID()));
 
     }
 
@@ -168,19 +185,39 @@ class BirdRepositoryTest {
     void updateBird() {
 
         boolean birdinArrayList = false;
-        String attribute = "Size (inches)";
+        String attribute = "Size";
         Float value = 5.0F;
+        Float resultValue = null;
 
         BirdRepository.addBird(bird.ID, bird.species, bird.color, bird.size, bird.beakShape, bird.gender, bird.wingspan, bird.activityPattern);
 
-        birdinArrayList = (BirdRepository.getBird(bird.getID()) != null);
+        birdinArrayList = (BirdRepository.getBird(bird.getID()));
 
         assertTrue(birdinArrayList, "Bird is not in list.");
 
-        BirdRepository.updateBird(attribute, value, BirdRepository.getBird(bird.getID()));
+        BirdRepository.updateBird(attribute, value, bird.getID());
+
+        Connection connection = null;
+        try {
+
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + BirdRepository.databaseName, BirdRepository.usersUsername, new String(BirdRepository.usersPassword));
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM " + BirdRepository.tableName + " WHERE ID = " + bird.getID());
+
+            MainFrame.tableModel.setRowCount(0);
+
+            if (resultSet.next()) {
+
+                resultValue = Float.valueOf(resultSet.getString(attribute));
+
+            }
+
+        } catch (Exception _) {
+
+        }
 
         assertNotNull(BirdRepository.getBird(bird.getID()));
-        assertEquals(value, BirdRepository.getBird(bird.getID()).size);
+        assertEquals(value, resultValue);
 
     }
 

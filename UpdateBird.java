@@ -1,7 +1,7 @@
 /**
  * Joshua Thibault
  * CEN 3024 - Software Development I
- * March 30th, 2026
+ * April 8th, 2026
  * UpdateBird.java
  * This class is where birds can be updated in the system using the birds ID. It will use its own form to do so.
  */
@@ -9,6 +9,7 @@
 
 import javax.swing.*;
 import java.awt.event.*;
+import java.sql.*;
 import java.util.Objects;
 
 public class UpdateBird extends JFrame {
@@ -61,22 +62,20 @@ public class UpdateBird extends JFrame {
 
                 try {
 
-                    String birdEntry = birdToUpdateTextField.getText();
-                    Bird birdToUpdate = null;
+                    Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + BirdRepository.databaseName, BirdRepository.usersUsername, new String(BirdRepository.usersPassword));
 
-                    if (!BirdRepository.correctAttribute(birdEntry, "Integer")) {
+
+                    int birdEntry = Integer.parseInt(birdToUpdateTextField.getText());
+
+                    if (!BirdRepository.correctAttribute(String.valueOf(birdEntry), "Integer")) {
 
                         correctAttributes = false;
                         wrongAttributesInputtedString.append("<br> Bird: Incorrect format");
 
-                    } else if (BirdRepository.getBird(Integer.parseInt(birdEntry)) == null) {
+                    } else if (!BirdRepository.getBird(birdEntry)) {
 
                         correctAttributes = false;
                         wrongAttributesInputtedString.append("<br> Bird ID: Bird not found");
-
-                    } else {
-
-                        birdToUpdate = BirdRepository.getBird(Integer.parseInt(birdEntry));
 
                     }
 
@@ -88,7 +87,9 @@ public class UpdateBird extends JFrame {
                         correctAttributes = false;
                         wrongAttributesInputtedString.append("<br> ID: Incorrect format");
 
-                    } else if ((BirdRepository.getBird(Integer.parseInt(IDEntry)) != null) && (Integer.parseInt(IDEntry) != Objects.requireNonNull(birdToUpdate).getID())) {
+                    } else if (!BirdRepository.correctAttribute(String.valueOf(birdEntry), "Integer")) {
+
+                    } else if ((BirdRepository.getBird(Integer.parseInt(IDEntry))) && (Integer.parseInt(IDEntry) != birdEntry)) {
 
                         correctAttributes = false;
                         wrongAttributesInputtedString.append("<br> ID: Already used ID");
@@ -179,16 +180,18 @@ public class UpdateBird extends JFrame {
 
                     if (correctAttributes) {
 
-                        BirdRepository.updateBird("Species", speciesEntry, birdToUpdate);
-                        BirdRepository.updateBird("Color", colorEntry, birdToUpdate);
-                        BirdRepository.updateBird("Size (inches)", size, birdToUpdate);
-                        BirdRepository.updateBird("Beak Shape", beakShapeEntry, birdToUpdate);
-                        BirdRepository.updateBird("Gender", gender, birdToUpdate);
-                        BirdRepository.updateBird("Wingspan (inches)", wingspan, birdToUpdate);
-                        BirdRepository.updateBird("Activity Pattern", activityPatternEntry, birdToUpdate);
-                        BirdRepository.updateBird("ID", ID, birdToUpdate);
+                        BirdRepository.updateBird("Species", speciesEntry, birdEntry);
+                        BirdRepository.updateBird("Color", colorEntry, birdEntry);
+                        BirdRepository.updateBird("Size", size, birdEntry);
+                        BirdRepository.updateBird("Beak_Shape", beakShapeEntry, birdEntry);
+                        BirdRepository.updateBird("Gender", gender, birdEntry);
+                        BirdRepository.updateBird("Wingspan", wingspan, birdEntry);
+                        BirdRepository.updateBird("Activity_Pattern", activityPatternEntry, birdEntry);
+                        BirdRepository.updateBird("ID", ID, birdEntry);
 
                         dispose();
+
+                        BirdRepository.setTableRows();
 
                     } else {
 
@@ -202,15 +205,15 @@ public class UpdateBird extends JFrame {
 
                 } catch (Exception exception) {
 
-                    exception.printStackTrace();
-
                     int userInput = JOptionPane.showConfirmDialog(null, "Invalid input. Please try again.", "Update Bird", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
                     if (userInput == JOptionPane.DEFAULT_OPTION) {
 
                     }
 
                 }
+
             }
+
         });
 
         /**
@@ -226,41 +229,42 @@ public class UpdateBird extends JFrame {
 
                 try {
 
+                    Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + BirdRepository.databaseName, BirdRepository.usersUsername, new String(BirdRepository.usersPassword));
+                    Statement statement = connection.createStatement();
+                    ResultSet resultSet = null;
+
                     boolean realBird = true;
                     StringBuilder wrongAttributesInputtedString = new StringBuilder();
                     String birdEntry = birdToUpdateTextField.getText();
-                    Bird birdToUpdate = null;
 
                     if (!BirdRepository.correctAttribute(birdEntry, "Integer")) {
 
                         realBird = false;
                         wrongAttributesInputtedString.append("<br> Bird: Incorrect format");
 
-                    } else if (BirdRepository.getBird(Integer.parseInt(birdEntry)) == null) {
+                    } else if (!BirdRepository.getBird(Integer.parseInt(birdEntry))) {
 
                         realBird = false;
                         wrongAttributesInputtedString.append("<br> Bird ID: Bird not found");
 
                     } else {
 
-                        birdToUpdate = BirdRepository.getBird(Integer.parseInt(birdEntry));
+                        resultSet = connection.createStatement().executeQuery("SELECT * FROM " + BirdRepository.tableName + " WHERE ID = " + Integer.parseInt(birdEntry));
 
                     }
 
-                    if (realBird) {
+                    if (realBird && resultSet.next()) {
 
-                        IDTextField.setText(String.valueOf(birdToUpdate.ID));
-                        speciesTextField.setText(String.valueOf(birdToUpdate.species));
-                        colorTextField.setText(String.valueOf(birdToUpdate.color));
-                        sizeTextField.setText(String.valueOf(birdToUpdate.size));
-                        beakShapeTextField.setText(String.valueOf(birdToUpdate.beakShape));
-                        genderTextField.setText(String.valueOf(birdToUpdate.gender));
-                        wingspanTextField.setText(String.valueOf(birdToUpdate.wingspan));
-                        activityPatternTextField.setText(String.valueOf(birdToUpdate.activityPattern));
+                        IDTextField.setText(resultSet.getString("ID"));
+                        speciesTextField.setText(resultSet.getString("Species"));
+                        colorTextField.setText(resultSet.getString("Color"));
+                        sizeTextField.setText(resultSet.getString("Size"));
+                        beakShapeTextField.setText(resultSet.getString("Beak_Shape"));
+                        genderTextField.setText(resultSet.getString("Gender"));
+                        wingspanTextField.setText(resultSet.getString("Wingspan"));
+                        activityPatternTextField.setText(resultSet.getString("Activity_Pattern"));
 
                     } else {
-
-                        System.out.print(cancelButton.hasFocus());
 
                         if ((!exitedTab) && (!cancelButton.hasFocus())) {
 
@@ -289,7 +293,9 @@ public class UpdateBird extends JFrame {
                     }
 
                 }
+
             }
+
         });
 
         /**
@@ -322,43 +328,45 @@ public class UpdateBird extends JFrame {
 
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 
+
                     try {
+
+                        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + BirdRepository.databaseName, BirdRepository.usersUsername, new String(BirdRepository.usersPassword));
+                        Statement statement = connection.createStatement();
+                        ResultSet resultSet = null;
 
                         boolean realBird = true;
                         StringBuilder wrongAttributesInputtedString = new StringBuilder();
                         String birdEntry = birdToUpdateTextField.getText();
-                        Bird birdToUpdate = null;
 
                         if (!BirdRepository.correctAttribute(birdEntry, "Integer")) {
 
                             realBird = false;
                             wrongAttributesInputtedString.append("<br> Bird: Incorrect format");
 
-                        } else if (BirdRepository.getBird(Integer.parseInt(birdEntry)) == null) {
+                        } else if (!BirdRepository.getBird(Integer.parseInt(birdEntry))) {
 
                             realBird = false;
                             wrongAttributesInputtedString.append("<br> Bird ID: Bird not found");
 
                         } else {
 
-                            birdToUpdate = BirdRepository.getBird(Integer.parseInt(birdEntry));
+                            resultSet = connection.createStatement().executeQuery("SELECT * FROM " + BirdRepository.tableName + " WHERE ID = " + Integer.parseInt(birdEntry));
 
                         }
 
-                        if (realBird) {
+                        if (realBird && resultSet.next()) {
 
-                            IDTextField.setText(String.valueOf(birdToUpdate.ID));
-                            speciesTextField.setText(String.valueOf(birdToUpdate.species));
-                            colorTextField.setText(String.valueOf(birdToUpdate.color));
-                            sizeTextField.setText(String.valueOf(birdToUpdate.size));
-                            beakShapeTextField.setText(String.valueOf(birdToUpdate.beakShape));
-                            genderTextField.setText(String.valueOf(birdToUpdate.gender));
-                            wingspanTextField.setText(String.valueOf(birdToUpdate.wingspan));
-                            activityPatternTextField.setText(String.valueOf(birdToUpdate.activityPattern));
+                                IDTextField.setText(resultSet.getString("ID"));
+                                speciesTextField.setText(resultSet.getString("Species"));
+                                colorTextField.setText(resultSet.getString("Color"));
+                                sizeTextField.setText(resultSet.getString("Size"));
+                                beakShapeTextField.setText(resultSet.getString("Beak_Shape"));
+                                genderTextField.setText(resultSet.getString("Gender"));
+                                wingspanTextField.setText(resultSet.getString("Wingspan"));
+                                activityPatternTextField.setText(resultSet.getString("Activity_Pattern"));
 
                         } else {
-
-                            System.out.print(cancelButton.hasFocus());
 
                             if ((!exitedTab) && (!cancelButton.hasFocus())) {
 

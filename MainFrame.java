@@ -1,7 +1,7 @@
 /**
  * Joshua Thibault
  * CEN 3024 - Software Development I
- * March 30th, 2026
+ * April 8th, 2026
  * MainFrame.java
  * This class is the main menu for the system. It will show a table of all the birds in the system, as well as all the buttons which go to each function of the system.
  */
@@ -27,6 +27,11 @@ public class MainFrame extends JFrame {
     private JPanel buttonPanel;
     private JScrollPane tableScrollPane;
     private JLabel birdImage;
+    private JButton databaseButton;
+    public String databaseName;
+    public String tableName;
+    public String username;
+    public char[] password;
 
     public static DefaultTableModel tableModel = new DefaultTableModel(new String[][]{}, new String[]{"ID", "Species", "Color", "Size (inches)", "Beak Shape", "Gender", "Wingspan (inches)", "Activity Pattern"}) {
 
@@ -52,6 +57,7 @@ public class MainFrame extends JFrame {
         addBirdsManuallyButton.setIcon(new ImageIcon(new ImageIcon("src/Plus Icon.png").getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH)));
         updateButton.setIcon(new ImageIcon(new ImageIcon("src/Pencil Icon.png").getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH)));
         removeButton.setIcon(new ImageIcon(new ImageIcon("src/Trash can Icon.png").getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH)));
+        databaseButton.setIcon(new ImageIcon(new ImageIcon("src/Database Icon.png").getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH)));
 
 
         setContentPane(mainPanel);
@@ -206,6 +212,24 @@ public class MainFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
 
                 new RemoveBird();
+
+            }
+
+        });
+
+        /**
+         * method: databaseButton.addActionListener
+         * parameter: N/A
+         * return: N/A
+         * purpose: This method is for when the databaseButton is selected, it will add a new DatabaseLogin form.
+         */
+
+        databaseButton.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                new DatabaseLogin();
 
             }
 

@@ -1,27 +1,27 @@
 /**
  * Joshua Thibault
  * CEN 3024 - Software Development I
- * March 30th, 2026
+ * April 8th, 2026
  * BirdRepository.java
  * This class will have the functions needed to add birds, find birds, update birds, seeing if attributes are correct, and sorting attribute values.
  */
 
-import com.sun.tools.javac.Main;
-
-import javax.swing.*;
-import javax.swing.table.TableColumn;
 import java.io.File;
 import java.io.FileInputStream;
+import java.sql.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class BirdRepository {
 
-    static ArrayList<Bird> birdList = new ArrayList<Bird>();
+    static String usersUsername = null;
+    static char[] usersPassword = null;
+    static String databaseName = null;
+    static String tableName = null;
 
     /**
      * method: realFile
-     * parameter: String
+     * parameter: File
      * return: Boolean
      * purpose: This method is to check if the file can be read and if a real file. It will return true if it can be read.
      */
@@ -83,7 +83,7 @@ public class BirdRepository {
 
         String activityPattern = fileLine.substring(nextAttributeinString);
 
-        if (BirdRepository.getBird(ID) != null) {
+        if (BirdRepository.getBird(ID)) {
 
             validID = false;
 
@@ -114,20 +114,35 @@ public class BirdRepository {
     /**
      * method: addBird
      * parameter: int ID, String species, String color, float size, String beakShape, char gender, float wingspan, String activityPattern
-     * return: Boolean
+     * return: boolean
      * purpose: This is for adding a bird to the arrayList. It will make sure that the ID is not previously used for another bird.
      */
 
-    static Boolean addBird(int ID, String species, String color, float size, String beakShape, char gender, float wingspan, String activityPattern) {
+    static boolean addBird(int ID, String species, String color, float size, String beakShape, char gender, float wingspan, String activityPattern) {
 
-        if (getBird(ID) == null) {
-            Bird newBird = new Bird(ID, species, color, size, beakShape, gender, wingspan, activityPattern);
-            birdList.add(newBird);
-            MainFrame.tableModel.addRow(new String[]{String.valueOf(ID), species, color, String.valueOf(size), beakShape, String.valueOf(gender), String.valueOf(wingspan), activityPattern});
-            return getBird(ID) != null;
+        try {
 
-        } else {
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + databaseName, usersUsername, new String(usersPassword));
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO " + tableName + "(ID, Species, Color, Size, Beak_Shape, Gender, Wingspan, Activity_Pattern) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 
+            statement.setString(1, String.valueOf(ID));
+            statement.setString(2, species);
+            statement.setString(3, color);
+            statement.setString(4, String.valueOf(size));
+            statement.setString(5, beakShape);
+            statement.setString(6, String.valueOf(gender));
+            statement.setString(7, String.valueOf(wingspan));
+            statement.setString(8, activityPattern);
+
+            statement.executeUpdate();
+
+                return getBird(ID);
+
+
+
+        } catch (SQLException e) {
+
+            System.out.println(e.getMessage());
             return false;
 
         }
@@ -137,39 +152,63 @@ public class BirdRepository {
     /**
      * method: getBird
      * parameter: int ID
-     * return: Bird
+     * return: boolean
      * purpose: This is for getting a bird based on its ID. It will return null if it can not be found.
      */
 
-    static Bird getBird(int ID) {
+    static boolean getBird(int ID) {
 
-        for (Bird birdItem : birdList) {
+        try {
 
-            if (birdItem.ID == ID) {
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + databaseName, usersUsername, new String(usersPassword));
+            ResultSet resultSet = connection.createStatement().executeQuery("SELECT * FROM " + tableName + " WHERE ID = " + ID);
 
-                return birdItem;
+            if (resultSet.next()) {
+
+                return true;
+
             }
+
+        } catch (SQLException e) {
+
+            System.out.println("Something happened");
+
+            return false;
 
         }
 
-        return null;
+        return false;
 
     }
 
     /**
      * method: removeBird
-     * parameter: Bird bird
-     * return: Boolean
+     * parameter: int ID
+     * return: boolean
      * purpose: This is for removing a bird from the arrayList.
      */
 
-    static Boolean removeBird(Bird bird) {
+    static boolean removeBird(int ID) {
 
-        birdList.remove(bird);
+        try {
+
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + databaseName, usersUsername, new String(usersPassword));
+        PreparedStatement statement = connection.prepareStatement("DELETE FROM  " + tableName + " WHERE ID = ?");
+
+        statement.setInt(1, ID);
+        statement.executeUpdate();
+
+
+    } catch (SQLException e) {
+
+        return false;
+
+    }
 
         for (int i = 0; i < MainFrame.tableModel.getRowCount(); i++) {
 
-            if (Integer.parseInt((String) MainFrame.tableModel.getValueAt(i, 0)) == bird.getID()) {
+            if (Integer.parseInt((String) MainFrame.tableModel.getValueAt(i, 0)) == ID) {
+
 
                 MainFrame.tableModel.removeRow(i);
                 break;
@@ -178,7 +217,7 @@ public class BirdRepository {
 
         }
 
-        return getBird(bird.getID()) == null;
+        return !getBird(ID);
 
     }
 
@@ -189,91 +228,37 @@ public class BirdRepository {
      * purpose: This is for updating a birds attribute. It will see which attribute will be updated for the bird and change the value for the bird.
      */
 
-    static <T> Boolean updateBird(String attribute, T value, Bird bird) {
+    static <T> boolean updateBird(String attribute, T value, int ID) {
 
         boolean updatedBird = false;
-        int rowNumber = -1;
-        int columnNumber = -1;
         String attributeName = attribute;
-        int newValue = -1;
-        String strValue = "";
 
-        for (int i = 0; i < MainFrame.tableModel.getRowCount(); i++) {
 
-            if (MainFrame.tableModel.getValueAt(i, 0) instanceof String) {
 
-                strValue = (String) MainFrame.tableModel.getValueAt(i, 0);
-                newValue = Integer.parseInt(strValue);
-
-                if (newValue == bird.getID()) {
-
-                    System.out.println(i);
-                    rowNumber = i;
-                    break;
-
-                }
-
-            }
-
-        }
-
-        for (int i = 0; i < MainFrame.tableModel.getColumnCount(); i++) {
-
-            if (attributeName.equals(MainFrame.tableModel.getColumnName(i))) {
-
-                columnNumber = i;
+        /* switch (attribute) {
+            case "Beak Shape":
+                attributeName = "Beak_Shape";
                 break;
+            case "Activity Pattern":
+                attributeName = "Activity_Pattern";
+                break;
+            default:
+        } */
+        try {
 
-            }
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + databaseName, usersUsername, new String(usersPassword));
+            PreparedStatement statement = connection.prepareStatement("UPDATE Birds SET " + attributeName + " = ? WHERE ID =  ?");
 
-        }
+            statement.setString(1, String.valueOf(value));
+            statement.setString(2, String.valueOf(ID));
 
-        if ((rowNumber != -1) && (columnNumber != -1)) {
 
-            MainFrame.tableModel.setValueAt(String.valueOf(value), rowNumber, columnNumber);
+            statement.executeUpdate();
 
-        } else {
-
-            System.out.println(rowNumber + " " + columnNumber);
+        } catch (Exception e) {
 
             return false;
 
-        }
-
-        switch (attribute) {
-            case "ID":
-                bird.ID = (int) value;
-                updatedBird = true;
-                break;
-            case "Species":
-                bird.species = (String) value;
-                updatedBird = true;
-                break;
-            case "Color":
-                bird.color = (String) value;
-                updatedBird = true;
-                break;
-            case "Size (inches)":
-                bird.size = (Float) value;
-                updatedBird = true;
-                break;
-            case "Beak Shape":
-                bird.beakShape = (String) value;
-                updatedBird = true;
-                break;
-            case "Gender":
-                bird.gender = (char) value;
-                updatedBird = true;
-                break;
-            case "Wingspan (inches)":
-                bird.wingspan = (float) value;
-                updatedBird = true;
-                break;
-            case "Activity Pattern":
-                bird.activityPattern = (String) value;
-                updatedBird = true;
-                break;
-            default:
         }
 
         return updatedBird;
@@ -282,8 +267,8 @@ public class BirdRepository {
 
     /**
      * method: correctAttribute
-     * parameter: String attribute, String type, Scanner scanner
-     * return: Boolean
+     * parameter: String attribute, String type
+     * return: boolean
      * purpose: This is for making sure if the attribute is in the correct type. If it is, it will return true and if not, it will return false.
      */
 
@@ -325,7 +310,7 @@ public class BirdRepository {
 
     /**
      * method: attributeChoice
-     * parameter: String type
+     * parameter: String type, Scanner scanner
      * return: <T> T
      * purpose: This is for making sure that the attribute is in the correct type and will ask for a new input if it is not.
      */
@@ -362,27 +347,13 @@ public class BirdRepository {
 
         HashMap<String, Integer> attributeCountMap = new HashMap<>();
 
-        try {
-            for (Bird birdItem : birdList) {
+        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + databaseName, usersUsername, new String(usersPassword))) {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT " + attribute + ", COUNT(*) AS Occurrences FROM Birds GROUP BY " + attribute + ";");
 
-                boolean newAttributeValue = false;
+            while (resultSet.next()) {
 
-                for (String i : attributeCountMap.keySet()) {
-
-                    if (i.equals(String.valueOf(Bird.class.getDeclaredField(attribute).get(birdItem)))) {
-
-                        attributeCountMap.put(i, attributeCountMap.get(i) + 1);
-                        newAttributeValue = true;
-
-                    }
-
-                }
-
-                if (!newAttributeValue) {
-
-                    attributeCountMap.put(String.valueOf(Bird.class.getDeclaredField(attribute).get(birdItem)), 1);
-
-                }
+                attributeCountMap.put(resultSet.getString(1), Integer.valueOf(resultSet.getString(2)));
 
             }
 
@@ -397,6 +368,87 @@ public class BirdRepository {
         }
 
         return null;
+
+    }
+
+    /**
+     * method: getConnection
+     * parameter: String username, char[] password, String database, String table
+     * return: Boolean
+     * purpose: This is for checking if a connection is valid and the credentials are correct.
+     */
+
+    static Boolean getConnection(String username, char[] password, String database, String table) {
+
+
+        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + database, username, new String(password))) {
+
+            return true;
+
+        } catch(Exception e) {
+
+            return false;
+
+        }
+
+    }
+
+    /**
+     * method: setLoginInformation
+     * parameter: String username, char[] password, String database, String table
+     * return: Boolean
+     * purpose: This is for updating the database information to be used in the system.
+     */
+
+    static Boolean setLoginInformation(String username, char[] password, String database, String table) {
+
+        try {
+
+            usersUsername = username;
+            usersPassword = password;
+            databaseName = database;
+            tableName = table;
+            return true;
+
+        } catch(Exception e) {
+
+            return false;
+
+        }
+
+    }
+
+    /**
+     * method: setTableRows
+     * parameter: N/A
+     * return: Boolean
+     * purpose: This adds new rows to the table based on what the rows are in the table in the database.
+     */
+
+    static Boolean setTableRows() {
+
+        Connection connection = null;
+        try {
+
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + databaseName, usersUsername, new String(usersPassword));
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM " + tableName);
+
+            MainFrame.tableModel.setRowCount(0);
+
+            while (resultSet.next()) {
+
+                MainFrame.tableModel.addRow(new String[]{resultSet.getString("ID"), resultSet.getString("Species"), resultSet.getString("Color"), resultSet.getString("Size"), resultSet.getString("Beak_Shape"), resultSet.getString("Gender"), resultSet.getString("Wingspan"), resultSet.getString("Activity_Pattern")});
+
+            }
+
+        } catch (SQLException e) {
+
+            return false;
+
+        }
+
+        return true;
 
     }
 

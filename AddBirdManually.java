@@ -1,7 +1,7 @@
 /**
  * Joshua Thibault
  * CEN 3024 - Software Development I
- * March 30th, 2026
+ * April 8th, 2026
  * AddBirdManually.java
  * This class is for the adding a bird manually to the system using its own form.
  */
@@ -66,7 +66,7 @@ public class AddBirdManually extends JFrame {
                         correctAttributes = false;
                         wrongAttributesInputtedString.append("<br> ID: Incorrect format");
 
-                    } else if (BirdRepository.getBird(Integer.parseInt(IDEntry)) != null) {
+                    } else if (BirdRepository.getBird(Integer.parseInt(IDEntry))) {
 
                         correctAttributes = false;
                         wrongAttributesInputtedString.append("<br> ID: Already used ID");
@@ -158,6 +158,7 @@ public class AddBirdManually extends JFrame {
                     if (correctAttributes) {
 
                         BirdRepository.addBird(ID, speciesEntry, colorEntry, size, beakShapeEntry, gender, wingspan, activityPatternEntry);
+                        BirdRepository.setTableRows();
                         dispose();
 
                     } else {

@@ -132,6 +132,19 @@
                       <text value=""/>
                     </properties>
                   </component>
+                  <component id="f51ce" class="javax.swing.JButton" binding="databaseButton">
+                    <constraints/>
+                    <properties>
+                      <background color="-7588882"/>
+                      <enabled value="true"/>
+                      <foreground color="-525825"/>
+                      <horizontalTextPosition value="0"/>
+                      <maximumSize width="34" height="34"/>
+                      <minimumSize width="34" height="34"/>
+                      <preferredSize width="34" height="34"/>
+                      <text value=""/>
+                    </properties>
+                  </component>
                 </children>
               </grid>
             </children>

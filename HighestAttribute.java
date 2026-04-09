@@ -1,7 +1,7 @@
 /**
  * Joshua Thibault
  * CEN 3024 - Software Development I
- * March 30th, 2026
+ * April 8th, 2026
  * HighestAttribute.java
  * This class is seeing which values for a specific attribute have the greatest quantity out of all of the birds using its own form.
  */
@@ -48,16 +48,16 @@ public class HighestAttribute extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                attributePicked = Objects.requireNonNull(comboBox.getSelectedItem()).toString().toLowerCase();
+                attributePicked = Objects.requireNonNull(comboBox.getSelectedItem()).toString();
                 System.out.println(attributePicked);
 
                 switch (attributePicked) {
 
-                    case "beak shape":
-                        attributePicked = "beakShape";
+                    case "Beak Shape":
+                        attributePicked = "Beak_Shape";
                         break;
-                    case "activity pattern":
-                        attributePicked = "activityPattern";
+                    case "Activity Pattern":
+                        attributePicked = "Activity_Pattern";
                         break;
                 }
 

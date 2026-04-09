@@ -1,7 +1,7 @@
 /**
  * Joshua Thibault
  * CEN 3024 - Software Development I
- * March 30th, 2026
+ * April 8th, 2026
  * RemoveBird.java
  * This class is where birds can be removed from the system using the birds ID. It will use its own form to do so.
  */
@@ -9,6 +9,8 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.*;
+import java.sql.*;
+import java.util.Arrays;
 
 public class RemoveBird extends JFrame {
     private JPanel panel1;
@@ -44,7 +46,7 @@ public class RemoveBird extends JFrame {
             try {
 
                 StringBuilder wrongAttributesInputtedString = new StringBuilder();
-                Bird birdToRemove = null;
+                boolean birdToRemove = false;
 
                 String IDEntry = IDTextField.getText();
                 int ID = 0;
@@ -53,24 +55,25 @@ public class RemoveBird extends JFrame {
 
                     wrongAttributesInputtedString.append("<br> ID: Incorrect format");
 
-                } else if (BirdRepository.getBird(Integer.parseInt(IDEntry)) == null) {
+                } else if (!BirdRepository.getBird(Integer.parseInt(IDEntry))) {
 
                     wrongAttributesInputtedString.append("<br> ID: Bird not found");
 
                 } else {
 
                     ID = Integer.parseInt(IDEntry);
+
                     birdToRemove = BirdRepository.getBird(ID);
 
                 }
 
 
-                if (birdToRemove != null) {
+                if (birdToRemove) {
 
                     int userInput = JOptionPane.showConfirmDialog(null, "Are you sure you want to remove the bird?", "Remove Bird", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                     if (userInput == JOptionPane.YES_OPTION) {
 
-                        BirdRepository.removeBird(birdToRemove);
+                        BirdRepository.removeBird(ID);
                         dispose();
 
                     }
@@ -109,6 +112,8 @@ public class RemoveBird extends JFrame {
 
                 try {
 
+                    Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + BirdRepository.databaseName, BirdRepository.usersUsername, new String(BirdRepository.usersPassword));
+
                     boolean realBird = true;
                     StringBuilder wrongAttributesInputtedString = new StringBuilder();
                     String birdEntry = IDTextField.getText();
@@ -119,27 +124,31 @@ public class RemoveBird extends JFrame {
                         realBird = false;
                         wrongAttributesInputtedString.append("<br> Bird: Incorrect format");
 
-                    } else if (BirdRepository.getBird(Integer.parseInt(birdEntry)) == null) {
+                    } else if (!BirdRepository.getBird(Integer.parseInt(birdEntry))) {
 
                         realBird = false;
                         wrongAttributesInputtedString.append("<br> Bird ID: Bird not found");
-
-                    } else {
-
-                        birdToRemove = BirdRepository.getBird(Integer.parseInt(birdEntry));
 
                     }
 
                     if (realBird) {
 
-                        tableModel.addRow(new String[]{"ID", String.valueOf(birdToRemove.ID)});
-                        tableModel.addRow(new String[]{"Species", String.valueOf(birdToRemove.species)});
-                        tableModel.addRow(new String[]{"Color", String.valueOf(birdToRemove.color)});
-                        tableModel.addRow(new String[]{"Size", String.valueOf(birdToRemove.size)});
-                        tableModel.addRow(new String[]{"Beak Shape", String.valueOf(birdToRemove.beakShape)});
-                        tableModel.addRow(new String[]{"Gender", String.valueOf(birdToRemove.gender)});
-                        tableModel.addRow(new String[]{"Wingspan", String.valueOf(birdToRemove.wingspan)});
-                        tableModel.addRow(new String[]{"Activity Pattern", String.valueOf(birdToRemove.activityPattern)});
+                        Statement statement = connection.createStatement();
+                        ResultSet resultSet = statement.executeQuery("SELECT * FROM " + BirdRepository.tableName + " WHERE ID = " + birdEntry);
+
+                        if (resultSet.next()) {
+
+
+                            tableModel.addRow(new String[]{"ID", resultSet.getString("ID")});
+                            tableModel.addRow(new String[]{"Species", resultSet.getString("Species")});
+                            tableModel.addRow(new String[]{"Color", resultSet.getString("Color")});
+                            tableModel.addRow(new String[]{"Size", resultSet.getString("Size")});
+                            tableModel.addRow(new String[]{"Beak Shape", resultSet.getString("Beak_Shape")});
+                            tableModel.addRow(new String[]{"Gender", resultSet.getString("Gender")});
+                            tableModel.addRow(new String[]{"Wingspan", resultSet.getString("Wingspan")});
+                            tableModel.addRow(new String[]{"Activity Pattern", resultSet.getString("Activity_Pattern")});
+
+                        }
 
                     } else {
 
@@ -176,6 +185,7 @@ public class RemoveBird extends JFrame {
                 }
 
             }
+
         });
 
         /**
@@ -212,6 +222,8 @@ public class RemoveBird extends JFrame {
 
                     try {
 
+                        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + BirdRepository.databaseName, BirdRepository.usersUsername, new String(BirdRepository.usersPassword));
+
                         boolean realBird = true;
                         StringBuilder wrongAttributesInputtedString = new StringBuilder();
                         String birdEntry = IDTextField.getText();
@@ -222,35 +234,37 @@ public class RemoveBird extends JFrame {
                             realBird = false;
                             wrongAttributesInputtedString.append("<br> Bird: Incorrect format");
 
-                        } else if (BirdRepository.getBird(Integer.parseInt(birdEntry)) == null) {
+                        } else if (!BirdRepository.getBird(Integer.parseInt(birdEntry))) {
 
                             realBird = false;
                             wrongAttributesInputtedString.append("<br> Bird ID: Bird not found");
-
-                        } else {
-
-                            birdToRemove = BirdRepository.getBird(Integer.parseInt(birdEntry));
 
                         }
 
                         if (realBird) {
 
-                            tableModel.addRow(new String[]{"ID", String.valueOf(birdToRemove.ID)});
-                            tableModel.addRow(new String[]{"Species", String.valueOf(birdToRemove.species)});
-                            tableModel.addRow(new String[]{"Color", String.valueOf(birdToRemove.color)});
-                            tableModel.addRow(new String[]{"Size", String.valueOf(birdToRemove.size)});
-                            tableModel.addRow(new String[]{"Beak Shape", String.valueOf(birdToRemove.beakShape)});
-                            tableModel.addRow(new String[]{"Gender", String.valueOf(birdToRemove.gender)});
-                            tableModel.addRow(new String[]{"Wingspan", String.valueOf(birdToRemove.wingspan)});
-                            tableModel.addRow(new String[]{"Activity Pattern", String.valueOf(birdToRemove.activityPattern)});
+                            Statement statement = connection.createStatement();
+                            ResultSet resultSet = statement.executeQuery("SELECT * FROM " + BirdRepository.tableName + " WHERE ID = " + birdEntry);
+
+                            if (resultSet.next()) {
+
+
+                                tableModel.addRow(new String[]{"ID", resultSet.getString("ID")});
+                                tableModel.addRow(new String[]{"Species", resultSet.getString("Species")});
+                                tableModel.addRow(new String[]{"Color", resultSet.getString("Color")});
+                                tableModel.addRow(new String[]{"Size", resultSet.getString("Size")});
+                                tableModel.addRow(new String[]{"Beak Shape", resultSet.getString("Beak_Shape")});
+                                tableModel.addRow(new String[]{"Gender", resultSet.getString("Gender")});
+                                tableModel.addRow(new String[]{"Wingspan", resultSet.getString("Wingspan")});
+                                tableModel.addRow(new String[]{"Activity Pattern", resultSet.getString("Activity_Pattern")});
+
+                            }
 
                         } else {
 
                             System.out.println(exitedTab);
 
                             if (!exitedTab) {
-
-                                System.out.println("hi2");
 
                                 int userInput = JOptionPane.showConfirmDialog(null, "<html>" + wrongAttributesInputtedString.toString() + "</html>", "Update Bird", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
                                 if (userInput == JOptionPane.DEFAULT_OPTION) {
