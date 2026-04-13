@@ -34,7 +34,7 @@ public class AddBirdManually extends JFrame {
     private JPanel panel1;
 
     /**
-     * This constructor will let the user add a bird manually with the user typing out the attributes into the text fields and then submitting it. It will also set the main components like the size, name, location, and visibility of the form.
+     * This constructor will let the user add a bird manually with the user typing out the attributes into the text fields and then submitting it. It will also set the main components like the size, name, location, and visibility of the form. The MainFrame will make a new AddBirdManually form when the Add Bird Manually button is clicked.
      */
 
     public AddBirdManually() {
@@ -48,6 +48,7 @@ public class AddBirdManually extends JFrame {
         addButton.addActionListener(new ActionListener() {
 
             /**
+             * {@inheritDoc}
              * This method makes sure that the attributes have the correct types and to add the bird to the system.
              * @param e The event to be processed.
              */

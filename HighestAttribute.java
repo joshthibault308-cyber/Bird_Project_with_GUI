@@ -12,7 +12,7 @@ import java.util.Objects;
  * CEN 3024 - Software Development I
  * April 8th, 2026
  * HighestAttribute.java
- * This class is seeing which values for a specific attribute have the greatest quantity out of all the birds using its own form. It will use the BirdRepository to get a map of the sorted attribute values.
+ * This class is seeing which values for a specific attribute have the greatest quantity out of all the birds using its own form. It will use the BirdRepository to get a map of the sorted attribute values. The MainFrame will make a new HighestAttribute form when the Highest Attribute button is clicked.
  */
 
 public class HighestAttribute extends JFrame {
@@ -44,6 +44,7 @@ public class HighestAttribute extends JFrame {
         comboBox.addActionListener(new ActionListener() {
 
             /**
+             * {@inheritDoc}
              * This method is for when a new attribute from the comboBox is selected, it will make a table for it describing the count of every value from the specific attribute.
              * @param e The event to be processed.
              */

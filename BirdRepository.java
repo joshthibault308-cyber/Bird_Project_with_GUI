@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
  * CEN 3024 - Software Development I
  * April 8th, 2026
  * BirdRepository.java
- * This class will have the functions needed to add birds, find birds, update birds, seeing if attributes are correct, and sorting attribute values. This will interact with the AddBirdManually, DatabaseLogin, HighestAttribute, RemoveBird, UpdateBird to do some of the important functions they need to do.
+ * This class will have the functions needed to add birds, find birds, update birds, seeing if attributes are correct, and sorting attribute values. This will interact with the AddBirdManually, DatabaseLogin, HighestAttribute, RemoveBird, UpdateBird, and MainFrame to do some of the important functions they need to do.
  */
 
 public class BirdRepository {

@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * CEN 3024 - Software Development I
  * April 8th, 2026
  * BirdRepositoryTest.java
- * This class will test the different functions the system will have.
+ * This class will test the different functions the system will have. It will interact with the BirdRepository to use it to test the functions that are in it.
  */
 
 class BirdRepositoryTest {

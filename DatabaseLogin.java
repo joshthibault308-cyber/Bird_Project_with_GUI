@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
  * CEN 3024 - Software Development I
  * April 8th, 2026
  * DatabaseLogin.java
- * This class is for having the user put in the database credentials. It will depend on the MainFrame to go to this form. It will also depend on the BirdRepository to let the user use the database credentials for other database functions.
+ * This class is for having the user put in the database credentials. It will depend on the MainFrame to go to this form. It will also depend on the BirdRepository to let the user use the database credentials for other database functions. The MainFrame will make a new DatabaseLogin form when the Database Login button is clicked.
  */
 
 public class DatabaseLogin extends JFrame {
@@ -37,6 +37,7 @@ public class DatabaseLogin extends JFrame {
         connectButton.addActionListener(new ActionListener() {
 
             /**
+             * {@inheritDoc}
              * This method will get the user's responses and give the system the information to access the database.
              * @param e The event to be processed.
              */

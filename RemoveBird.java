@@ -9,7 +9,7 @@ import java.util.Arrays;
  * CEN 3024 - Software Development I
  * April 8th, 2026
  * RemoveBird.java
- * This class is where birds can be removed from the system using the birds ID. It will use its own form to do so. It will use the BirdRepository to remove the bird and to also see if the bird to remove if actually in the database.
+ * This class is where birds can be removed from the system using the birds ID. It will use its own form to do so. It will use the BirdRepository to remove the bird and to also see if the bird to remove if actually in the database. The MainFrame will make a new RemoveBird form when the remove button is clicked.
  */
 
 public class RemoveBird extends JFrame {
@@ -96,6 +96,7 @@ public class RemoveBird extends JFrame {
         useButton.addActionListener(new ActionListener() {
 
             /**
+             * {@inheritDoc}
              * This method is for when the useButton is clicked. It will add a table showing the birds attributes, and it will give a warning if the bird could not be found.
              * @param e The event to be processed.
              */
@@ -186,6 +187,7 @@ public class RemoveBird extends JFrame {
         cancelButton.addActionListener(new ActionListener() {
 
             /**
+             * {@inheritDoc}
              * This method is for when the cancelButton is selected, it will remove the RemoveBird form.
              * @param e The event to be processed.
              */
@@ -202,6 +204,7 @@ public class RemoveBird extends JFrame {
         IDTextField.addKeyListener(new KeyAdapter() {
 
             /**
+             * {@inheritDoc}
              * This method is for when the enter key is typed in the IDTextField. It will add a table showing the birds attributes, and it will give a warning if the bird could not be found.
              * @param e The event to be processed.
              */

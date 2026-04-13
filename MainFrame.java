@@ -12,7 +12,7 @@ import java.util.Scanner;
  * CEN 3024 - Software Development I
  * April 8th, 2026
  * MainFrame.java
- * This class is the main menu for the system. It will show a table of all the birds in the system, as well as all the buttons which go to each function of the system. This will interact with the AddBirdManually, DatabaseLogin, HighestAttribute, RemoveBird, UpdateBird forms to open the forms up.
+ * This class is the main menu for the system. It will show a table of all the birds in the system, as well as all the buttons which go to each function of the system. This will interact with the AddBirdManually, DatabaseLogin, HighestAttribute, RemoveBird, UpdateBird forms to open the forms up. It will also interact with the BirdRepository for some of the functions like the addBirdwithFileFormat function.
  */
 
 public class MainFrame extends JFrame {
@@ -76,6 +76,7 @@ public class MainFrame extends JFrame {
         highestAttributeButton.addActionListener(new ActionListener() {
 
             /**
+             * {@inheritDoc}
              * This method is for when the highestAttributeButton is selected, it will add a new HighestAttribute form.
              * @param e The event to be processed.
              */
@@ -92,6 +93,7 @@ public class MainFrame extends JFrame {
         fileButton.addActionListener(new ActionListener() {
 
             /**
+             * {@inheritDoc}
              * This method is for when the fileButton is selected, it will open a file selector for the user to open a file containing birds. This will then add all the birds in the file to the system.
              * @param e The event to be processed.
              */
@@ -167,6 +169,7 @@ public class MainFrame extends JFrame {
         addBirdsManuallyButton.addActionListener(new ActionListener() {
 
             /**
+             * {@inheritDoc}
              * This method is for when the addBirdsManuallyButton is selected, it will add a new AddBirdManually form.
              * @param e The event to be processed.
              */
@@ -183,6 +186,7 @@ public class MainFrame extends JFrame {
         updateButton.addActionListener(new ActionListener() {
 
             /**
+             * {@inheritDoc}
              * This method is for when the updateButton button is selected, it will add a new UpdateBird form.
              * @param e The event to be processed.
              */
@@ -199,6 +203,7 @@ public class MainFrame extends JFrame {
         removeButton.addActionListener(new ActionListener() {
 
             /**
+             * {@inheritDoc}
              * This method is for when the removeButton is selected, it will add a new RemoveBird form.
              * @param e The event to be processed.
              */
@@ -215,6 +220,7 @@ public class MainFrame extends JFrame {
         databaseButton.addActionListener(new ActionListener() {
 
             /**
+             * {@inheritDoc}
              * This method is for when the databaseButton is selected, it will add a new DatabaseLogin form.
              * @param e The event to be processed.
              */

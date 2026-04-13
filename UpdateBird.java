@@ -8,7 +8,7 @@ import java.util.Objects;
  * CEN 3024 - Software Development I
  * April 8th, 2026
  * UpdateBird.java
- * This class is where birds can be updated in the system using the birds ID. It will use its own form to do so. It will use the BirdRepository to update a bird in the database and to see if the bird is in the database.
+ * This class is where birds can be updated in the system using the birds ID. It will use its own form to do so. It will use the BirdRepository to update a bird in the database and to see if the bird is in the database. The MainFrame will make a new UpdateBird form when the update button is clicked.
  */
 
 public class UpdateBird extends JFrame {
@@ -51,10 +51,10 @@ public class UpdateBird extends JFrame {
         updateButton.addActionListener(new ActionListener() {
 
             /**
+             * {@inheritDoc}
              * This method is for when the updateButton is selected, it will make sure the ID is from a bird in the system. It will then update the bird using the new attributes added by the user.
              * @param e The action of the button.
              */
-
             @Override
             public void actionPerformed(ActionEvent e) {
 
@@ -220,6 +220,7 @@ public class UpdateBird extends JFrame {
         addButton.addActionListener(new ActionListener() {
             
             /**
+             * {@inheritDoc}
              * This method is for when addButton is selected, it will show the attributes of the bird based on the ID specified.  It will give a warning if the bird could not be found.
              * @param e The action of the button.
              */
@@ -301,6 +302,7 @@ public class UpdateBird extends JFrame {
         cancelButton.addActionListener(new ActionListener() {
 
             /**
+             * {@inheritDoc}
              * This method is for when the cancelButton is selected, it will remove the RemoveBird form.
              * @param e The action of the button.
              */
@@ -317,6 +319,7 @@ public class UpdateBird extends JFrame {
         birdToUpdateTextField.addKeyListener(new KeyAdapter() {
 
             /**
+             * {@inheritDoc}
              * This method is for when the enter key is typed in the IDTextField. it will show the attributes of the bird based on the ID specified.  It will give a warning if the bird could not be found.
              * @param e The action of the button.
              */
