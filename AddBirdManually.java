@@ -1,16 +1,16 @@
-/**
- * Joshua Thibault
- * CEN 3024 - Software Development I
- * April 8th, 2026
- * AddBirdManually.java
- * This class is for the adding a bird manually to the system using its own form.
- */
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Objects;
+
+/**
+ * Joshua Thibault
+ * CEN 3024 - Software Development I
+ * April 8th, 2026
+ * AddBirdManually.java
+ * This class is for the adding a bird manually to the system using its own form. It will use the BirdRepository to add birds to the database.
+ */
 
 public class AddBirdManually extends JFrame {
     private JTextField IDTextField;
@@ -33,6 +33,10 @@ public class AddBirdManually extends JFrame {
     private JButton cancelButton;
     private JPanel panel1;
 
+    /**
+     * This constructor will let the user add a bird manually with the user typing out the attributes into the text fields and then submitting it. It will also set the main components like the size, name, location, and visibility of the form.
+     */
+
     public AddBirdManually() {
 
         setContentPane(panel1);
@@ -41,15 +45,12 @@ public class AddBirdManually extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
 
-        /**
-         * method: addButton.addActionListener
-         * parameter: N/A
-         * return: N/A
-         * purpose: This method makes sure that the attributes have the correct types and to add the bird to the system.
-         */
-
         addButton.addActionListener(new ActionListener() {
 
+            /**
+             * This method makes sure that the attributes have the correct types and to add the bird to the system.
+             * @param e The event to be processed.
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
 

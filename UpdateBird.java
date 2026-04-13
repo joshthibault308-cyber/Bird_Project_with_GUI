@@ -1,16 +1,15 @@
+import javax.swing.*;
+import java.awt.event.*;
+import java.sql.*;
+import java.util.Objects;
+
 /**
  * Joshua Thibault
  * CEN 3024 - Software Development I
  * April 8th, 2026
  * UpdateBird.java
- * This class is where birds can be updated in the system using the birds ID. It will use its own form to do so.
+ * This class is where birds can be updated in the system using the birds ID. It will use its own form to do so. It will use the BirdRepository to update a bird in the database and to see if the bird is in the database.
  */
-
-
-import javax.swing.*;
-import java.awt.event.*;
-import java.sql.*;
-import java.util.Objects;
 
 public class UpdateBird extends JFrame {
     private JTextField IDTextField;
@@ -37,6 +36,10 @@ public class UpdateBird extends JFrame {
     private JButton addButton;
     boolean exitedTab = false;
 
+    /**
+     * This constructor will let the user change attributes of a bird based on the birds ID. It will also set the main components like the title. size, location, and visibility of the form.
+     */
+
     public UpdateBird() {
 
         setContentPane(panel1);
@@ -45,14 +48,12 @@ public class UpdateBird extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
 
-        /**
-         * method: updateButton.addActionListener
-         * parameter: ActionEvent e
-         * return: N/A
-         * purpose: This method is for when the updateButton is selected, it will make sure the ID is from a bird in the system. It will then update the bird using the new attributes added by the user.
-         */
-
         updateButton.addActionListener(new ActionListener() {
+
+            /**
+             * This method is for when the updateButton is selected, it will make sure the ID is from a bird in the system. It will then update the bird using the new attributes added by the user.
+             * @param e The action of the button.
+             */
 
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -216,14 +217,13 @@ public class UpdateBird extends JFrame {
 
         });
 
-        /**
-         * method: addButton.addActionListener
-         * parameter: FocusEvent e
-         * return: N/A
-         * purpose: This method is for when addButton is selected, it will show the attributes of the bird based on the ID specified.  It will give a warning if the bird could not be found.
-         */
-
         addButton.addActionListener(new ActionListener() {
+            
+            /**
+             * This method is for when addButton is selected, it will show the attributes of the bird based on the ID specified.  It will give a warning if the bird could not be found.
+             * @param e The action of the button.
+             */
+
             @Override
             public void actionPerformed(ActionEvent e) {
 
@@ -298,14 +298,13 @@ public class UpdateBird extends JFrame {
 
         });
 
-        /**
-         * method: cancelButton.addActionListener
-         * parameter: ActionEvent e
-         * return: N/A
-         * purpose: This method is for when the cancelButton is selected, it will remove the RemoveBird form.
-         */
-
         cancelButton.addActionListener(new ActionListener() {
+
+            /**
+             * This method is for when the cancelButton is selected, it will remove the RemoveBird form.
+             * @param e The action of the button.
+             */
+
             @Override
             public void actionPerformed(ActionEvent e) {
 
@@ -315,14 +314,13 @@ public class UpdateBird extends JFrame {
             }
         });
 
-        /**
-         * method: birdToUpdateTextField.addKeyListener
-         * parameter: KeyEvent e
-         * return: N/A
-         * purpose: This method is for when the enter key is typed in the IDTextField. it will show the attributes of the bird based on the ID specified.  It will give a warning if the bird could not be found.
-         */
-
         birdToUpdateTextField.addKeyListener(new KeyAdapter() {
+
+            /**
+             * This method is for when the enter key is typed in the IDTextField. it will show the attributes of the bird based on the ID specified.  It will give a warning if the bird could not be found.
+             * @param e The action of the button.
+             */
+
             @Override
             public void keyReleased(KeyEvent e) {
 

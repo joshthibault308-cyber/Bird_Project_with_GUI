@@ -1,15 +1,15 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 /**
  * Joshua Thibault
  * CEN 3024 - Software Development I
  * April 8th, 2026
  * DatabaseLogin.java
- * This class is for having the user put in the database credentials.
+ * This class is for having the user put in the database credentials. It will depend on the MainFrame to go to this form. It will also depend on the BirdRepository to let the user use the database credentials for other database functions.
  */
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class DatabaseLogin extends JFrame {
     private JPanel panel1;
@@ -19,6 +19,10 @@ public class DatabaseLogin extends JFrame {
     private JPasswordField passwordField;
     private JButton connectButton;
     private JLabel birdImage;
+
+    /**
+     * This constructor is used for letting the user use the information of their input to access the user's database. It will also set the main components like the size, name, location, and visibility of the form.
+     */
 
     public DatabaseLogin() {
 
@@ -30,14 +34,12 @@ public class DatabaseLogin extends JFrame {
 
         birdImage.setIcon(new ImageIcon(new ImageIcon("src/Bird Image 2.png").getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH)));
 
-        /**
-         * method: connectionButton.addActionListener
-         * parameter: N/A
-         * return: N/A
-         * purpose: This method will get the user's responses and give the system the information to access the database.
-         */
-
         connectButton.addActionListener(new ActionListener() {
+
+            /**
+             * This method will get the user's responses and give the system the information to access the database.
+             * @param e The event to be processed.
+             */
 
             @Override
             public void actionPerformed(ActionEvent e) {

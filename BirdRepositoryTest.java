@@ -1,11 +1,3 @@
-/**
- * Joshua Thibault
- * CEN 3024 - Software Development I
- * April 8th, 2026
- * BirdRepositoryTest.java
- * This class will test the different functions the system will have.
- */
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -19,16 +11,21 @@ import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Joshua Thibault
+ * CEN 3024 - Software Development I
+ * April 8th, 2026
+ * BirdRepositoryTest.java
+ * This class will test the different functions the system will have.
+ */
+
 class BirdRepositoryTest {
 
     Bird bird;
     Scanner scanner;
 
     /**
-     * method: setUp
-     * parameter: N/A
-     * return: void
-     * purpose: This will set up adding a new bird.
+     * This will set up adding a new bird and connect it wth the database.
      */
 
     @BeforeEach
@@ -43,10 +40,7 @@ class BirdRepositoryTest {
     }
 
     /**
-     * method: tearDown
-     * parameter: N/A
-     * return: void
-     * purpose: This will remove all the birds from the arrayList once each test is done.
+     * This will remove all the birds from the database once each test is done.
      */
 
     @AfterEach
@@ -69,10 +63,7 @@ class BirdRepositoryTest {
     }
 
     /**
-     * method: addBird
-     * parameter: N/A
-     * return: void
-     * purpose: This will test adding a bird to the arrayList.
+     * This will test adding a bird to the database.
      */
 
     @Test
@@ -84,10 +75,7 @@ class BirdRepositoryTest {
     }
 
     /**
-     * method: addBirdWithUsedID
-     * parameter: N/A
-     * return: void
-     * purpose: This will test adding a bird to the arrayList with an ID already used.
+     * This will test adding a bird to the database with an ID already used.
      */
 
     @Test
@@ -100,10 +88,7 @@ class BirdRepositoryTest {
     }
 
     /**
-     * method: openFile
-     * parameter: N/A
-     * return: void
-     * purpose: This will try to open a file that was can be read.
+     * This will try to open a file that was can be read.
      */
 
     @Test
@@ -132,27 +117,7 @@ class BirdRepositoryTest {
     }
 
     /**
-     * method: openFakeFile
-     * parameter: N/A
-     * return: void
-     * purpose: This will try to open a file that can not be read.
-     */
-
-    /* @Test
-    @DisplayName("Open fake file test")
-    void openFakeFile() {
-
-        String fileName = "Bird File.txt";
-
-        assertFalse(BirdRepository.realFile(fileName));
-
-    } */
-
-    /**
-     * method: removeBird
-     * parameter: N/A
-     * return: void
-     * purpose: This will try to remove a bird from the arrayList.
+     * This will try to remove a bird from the database.
      */
 
     @Test
@@ -174,10 +139,7 @@ class BirdRepositoryTest {
     }
 
     /**
-     * method: updateBird
-     * parameter: N/A
-     * return: void
-     * purpose: This will test to see if a birds attribute is updated.
+     * This will test to see if a birds attribute is updated.
      */
 
     @Test
@@ -222,10 +184,7 @@ class BirdRepositoryTest {
     }
 
     /**
-     * method: highestAttribute
-     * parameter: N/A
-     * return: void
-     * purpose: This will test to see which value of a certain attribute is the most common.
+     * This will test to see which value of a certain attribute is the most common.
      */
 
     @Test

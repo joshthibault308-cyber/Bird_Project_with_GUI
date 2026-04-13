@@ -1,11 +1,3 @@
-/**
- * Joshua Thibault
- * CEN 3024 - Software Development I
- * April 8th, 2026
- * HighestAttribute.java
- * This class is seeing which values for a specific attribute have the greatest quantity out of all of the birds using its own form.
- */
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -15,6 +7,14 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * Joshua Thibault
+ * CEN 3024 - Software Development I
+ * April 8th, 2026
+ * HighestAttribute.java
+ * This class is seeing which values for a specific attribute have the greatest quantity out of all the birds using its own form. It will use the BirdRepository to get a map of the sorted attribute values.
+ */
+
 public class HighestAttribute extends JFrame {
     private JPanel highestAttributePanel;
     private JComboBox comboBox;
@@ -22,6 +22,10 @@ public class HighestAttribute extends JFrame {
     String attributePicked;
 
     DefaultTableModel tableModel = new DefaultTableModel(new String[][]{}, new String[]{"Attribute", "Amount"});
+
+    /**
+     * This constructor is for sorting the attribute values and putting them on to a mini table.
+     */
 
     public HighestAttribute() {
 
@@ -37,19 +41,17 @@ public class HighestAttribute extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
 
-        /**
-         * method: comboBox.addActionListener
-         * parameter: N/A
-         * return: N/A
-         * purpose: This method is for when a new attribute from the comboBox is selected, it will make a table for it describing the count of every value from the specific attribute.
-         */
-
         comboBox.addActionListener(new ActionListener() {
+
+            /**
+             * This method is for when a new attribute from the comboBox is selected, it will make a table for it describing the count of every value from the specific attribute.
+             * @param e The event to be processed.
+             */
+
             @Override
             public void actionPerformed(ActionEvent e) {
 
                 attributePicked = Objects.requireNonNull(comboBox.getSelectedItem()).toString();
-                System.out.println(attributePicked);
 
                 switch (attributePicked) {
 

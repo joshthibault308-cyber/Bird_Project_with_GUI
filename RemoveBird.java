@@ -1,16 +1,16 @@
-/**
- * Joshua Thibault
- * CEN 3024 - Software Development I
- * April 8th, 2026
- * RemoveBird.java
- * This class is where birds can be removed from the system using the birds ID. It will use its own form to do so.
- */
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.*;
 import java.sql.*;
 import java.util.Arrays;
+
+/**
+ * Joshua Thibault
+ * CEN 3024 - Software Development I
+ * April 8th, 2026
+ * RemoveBird.java
+ * This class is where birds can be removed from the system using the birds ID. It will use its own form to do so. It will use the BirdRepository to remove the bird and to also see if the bird to remove if actually in the database.
+ */
 
 public class RemoveBird extends JFrame {
     private JPanel panel1;
@@ -23,6 +23,9 @@ public class RemoveBird extends JFrame {
 
     DefaultTableModel tableModel = new DefaultTableModel(new String[][]{}, new String[]{"Attribute", "Value"});
 
+    /**
+     * This constructor will try to remove the bird specified by the user from the database. It will also set the main components like the title, size, position, and visibility of the form.
+     */
 
     public RemoveBird() {
 
@@ -33,13 +36,6 @@ public class RemoveBird extends JFrame {
         setSize(450, 600);
         setLocationRelativeTo(null);
         setVisible(true);
-
-        /**
-         * method: deleteButton.addActionListener
-         * parameter: ActionEvent e
-         * return: N/A
-         * purpose: This method is for when the deleteButton is selected, it will make sure the ID is from a bird in the system. It will then delete the bird from the system.
-         */
 
         deleteButton.addActionListener(e -> {
 
@@ -97,14 +93,13 @@ public class RemoveBird extends JFrame {
 
         });
 
-        /**
-         * method: IDTextField.addFocusListener
-         * parameter: FocusEvent e
-         * return: N/A
-         * purpose: This method is for when the useButton is clicked. It will add a table showing the birds attributes, and it will give a warning if the bird could not be found.
-         */
-
         useButton.addActionListener(new ActionListener() {
+
+            /**
+             * This method is for when the useButton is clicked. It will add a table showing the birds attributes, and it will give a warning if the bird could not be found.
+             * @param e The event to be processed.
+             */
+
             @Override
             public void actionPerformed(ActionEvent e) {
 
@@ -188,14 +183,13 @@ public class RemoveBird extends JFrame {
 
         });
 
-        /**
-         * method: cancelButton.addActionListener
-         * parameter: ActionEvent e
-         * return: N/A
-         * purpose: This method is for when the cancelButton is selected, it will remove the RemoveBird form.
-         */
-
         cancelButton.addActionListener(new ActionListener() {
+
+            /**
+             * This method is for when the cancelButton is selected, it will remove the RemoveBird form.
+             * @param e The event to be processed.
+             */
+
             @Override
             public void actionPerformed(ActionEvent e) {
 
@@ -205,14 +199,13 @@ public class RemoveBird extends JFrame {
             }
         });
 
-        /**
-         * method: IDTextField.addKeyListener
-         * parameter: KeyEvent e
-         * return: N/A
-         * purpose: This method is for when the enter key is typed in the IDTextField. It will add a table showing the birds attributes, and it will give a warning if the bird could not be found.
-         */
-
         IDTextField.addKeyListener(new KeyAdapter() {
+
+            /**
+             * This method is for when the enter key is typed in the IDTextField. It will add a table showing the birds attributes, and it will give a warning if the bird could not be found.
+             * @param e The event to be processed.
+             */
+
             @Override
             public void keyReleased(KeyEvent e) {
 

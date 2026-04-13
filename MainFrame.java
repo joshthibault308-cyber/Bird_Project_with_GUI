@@ -1,11 +1,3 @@
-/**
- * Joshua Thibault
- * CEN 3024 - Software Development I
- * April 8th, 2026
- * MainFrame.java
- * This class is the main menu for the system. It will show a table of all the birds in the system, as well as all the buttons which go to each function of the system.
- */
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -14,6 +6,14 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.Scanner;
+
+/**
+ * Joshua Thibault
+ * CEN 3024 - Software Development I
+ * April 8th, 2026
+ * MainFrame.java
+ * This class is the main menu for the system. It will show a table of all the birds in the system, as well as all the buttons which go to each function of the system. This will interact with the AddBirdManually, DatabaseLogin, HighestAttribute, RemoveBird, UpdateBird forms to open the forms up.
+ */
 
 public class MainFrame extends JFrame {
     private JTable ViewBirdsTable;
@@ -44,6 +44,9 @@ public class MainFrame extends JFrame {
 
     };
 
+    /**
+     * This constructor will have the main frame of the Bird Project, which will have a table and buttons to go to the other forms. It will also set the main components like the size, button images name, location, and visibility of the form.
+     */
 
     public MainFrame() {
 
@@ -70,14 +73,13 @@ public class MainFrame extends JFrame {
 
         setExtendedState(Frame.MAXIMIZED_BOTH);
 
-        /**
-         * method: highestAttributeButton.addActionListener
-         * parameter: N/A
-         * return: N/A
-         * purpose: This method is for when the highestAttributeButton is selected, it will add a new HighestAttribute form.
-         */
-
         highestAttributeButton.addActionListener(new ActionListener() {
+
+            /**
+             * This method is for when the highestAttributeButton is selected, it will add a new HighestAttribute form.
+             * @param e The event to be processed.
+             */
+
             @Override
             public void actionPerformed(ActionEvent e) {
 
@@ -87,14 +89,13 @@ public class MainFrame extends JFrame {
 
         });
 
-        /**
-         * method: fileButton.addActionListener
-         * parameter: N/A
-         * return: N/A
-         * purpose: This method is for when the fileButton is selected, it will open a file selector for the user to open a file containing birds. This will then add all the birds in the file to the system.
-         */
-
         fileButton.addActionListener(new ActionListener() {
+
+            /**
+             * This method is for when the fileButton is selected, it will open a file selector for the user to open a file containing birds. This will then add all the birds in the file to the system.
+             * @param e The event to be processed.
+             */
+
             @Override
             public void actionPerformed(ActionEvent e) {
 
@@ -163,14 +164,12 @@ public class MainFrame extends JFrame {
             }
         });
 
-        /**
-         * method: addBirdsManuallyButton.addActionListener
-         * parameter: N/A
-         * return: N/A
-         * purpose: This method is for when the addBirdsManuallyButton is selected, it will add a new AddBirdManually form.
-         */
-
         addBirdsManuallyButton.addActionListener(new ActionListener() {
+
+            /**
+             * This method is for when the addBirdsManuallyButton is selected, it will add a new AddBirdManually form.
+             * @param e The event to be processed.
+             */
 
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -181,14 +180,12 @@ public class MainFrame extends JFrame {
 
         });
 
-        /**
-         * method: updateButton.addActionListener
-         * parameter: N/A
-         * return: N/A
-         * purpose: This method is for when the updateButton button is selected, it will add a new UpdateBird form.
-         */
-
         updateButton.addActionListener(new ActionListener() {
+
+            /**
+             * This method is for when the updateButton button is selected, it will add a new UpdateBird form.
+             * @param e The event to be processed.
+             */
 
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -199,14 +196,12 @@ public class MainFrame extends JFrame {
 
         });
 
-        /**
-         * method: removeBird.addActionListener
-         * parameter: N/A
-         * return: N/A
-         * purpose: This method is for when the removeButton is selected, it will add a new RemoveBird form.
-         */
-
         removeButton.addActionListener(new ActionListener() {
+
+            /**
+             * This method is for when the removeButton is selected, it will add a new RemoveBird form.
+             * @param e The event to be processed.
+             */
 
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -217,14 +212,12 @@ public class MainFrame extends JFrame {
 
         });
 
-        /**
-         * method: databaseButton.addActionListener
-         * parameter: N/A
-         * return: N/A
-         * purpose: This method is for when the databaseButton is selected, it will add a new DatabaseLogin form.
-         */
-
         databaseButton.addActionListener(new ActionListener() {
+
+            /**
+             * This method is for when the databaseButton is selected, it will add a new DatabaseLogin form.
+             * @param e The event to be processed.
+             */
 
             @Override
             public void actionPerformed(ActionEvent e) {

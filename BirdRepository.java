@@ -1,16 +1,16 @@
-/**
- * Joshua Thibault
- * CEN 3024 - Software Development I
- * April 8th, 2026
- * BirdRepository.java
- * This class will have the functions needed to add birds, find birds, update birds, seeing if attributes are correct, and sorting attribute values.
- */
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.sql.*;
 import java.util.*;
 import java.util.stream.Collectors;
+
+/**
+ * Joshua Thibault
+ * CEN 3024 - Software Development I
+ * April 8th, 2026
+ * BirdRepository.java
+ * This class will have the functions needed to add birds, find birds, update birds, seeing if attributes are correct, and sorting attribute values. This will interact with the AddBirdManually, DatabaseLogin, HighestAttribute, RemoveBird, UpdateBird to do some of the important functions they need to do.
+ */
 
 public class BirdRepository {
 
@@ -20,10 +20,9 @@ public class BirdRepository {
     static String tableName = null;
 
     /**
-     * method: realFile
-     * parameter: File
-     * return: Boolean
-     * purpose: This method is to check if the file can be read and if a real file. It will return true if it can be read.
+     * This method is to check if the file can be read and if a real file. It will return true if it can be read.
+     * @param file The file that is validated.
+     * @return Boolean: True if valid and false if not.
      */
 
     static Boolean realFile(File file) {
@@ -41,10 +40,9 @@ public class BirdRepository {
     }
 
     /**
-     * method: addBirdwithFileFormat
-     * parameter: String
-     * return: Bird
-     * purpose: This is for adding birds for each line of a file and making sure their attributes are correct.
+     * This is for adding birds for each line of a file and making sure their attributes are correct.
+     * @param fileLine Line of file where a bird is being added.
+     * @return Bird: Bird object containing attributes of bird added. Null if attributes are incorrect.
      */
 
     static Bird addBirdwithFileFormat(String fileLine) {
@@ -112,10 +110,16 @@ public class BirdRepository {
     }
 
     /**
-     * method: addBird
-     * parameter: int ID, String species, String color, float size, String beakShape, char gender, float wingspan, String activityPattern
-     * return: boolean
-     * purpose: This is for adding a bird to the arrayList. It will make sure that the ID is not previously used for another bird.
+     * This is for adding a bird to the arrayList. It will make sure that the ID is not previously used for another bird.
+     * @param ID ID of bird added.
+     * @param species Species of bird added.
+     * @param color Color of bird added.
+     * @param size Size of bird added.
+     * @param beakShape Beak shape of bird added.
+     * @param gender Gender of bird added.
+     * @param wingspan Wingspan of bird added.
+     * @param activityPattern Activity pattern of bird added.
+     * @return boolean: True if bird is added and false if not.
      */
 
     static boolean addBird(int ID, String species, String color, float size, String beakShape, char gender, float wingspan, String activityPattern) {
@@ -150,10 +154,9 @@ public class BirdRepository {
     }
 
     /**
-     * method: getBird
-     * parameter: int ID
-     * return: boolean
-     * purpose: This is for getting a bird based on its ID. It will return null if it can not be found.
+     * This is for seeing if a bird is there. It will return true if it is found and false if not.
+     * @param ID ID of bird.
+     * @return boolean: True if bird is there and false if not.
      */
 
     static boolean getBird(int ID) {
@@ -182,10 +185,9 @@ public class BirdRepository {
     }
 
     /**
-     * method: removeBird
-     * parameter: int ID
-     * return: boolean
-     * purpose: This is for removing a bird from the arrayList.
+     * This is for removing a bird from the arrayList.
+     * @param ID ID of bird to be removed.
+     * @return boolean True if bird is removed and false if not or if an error occurred.
      */
 
     static boolean removeBird(int ID) {
@@ -222,10 +224,11 @@ public class BirdRepository {
     }
 
     /**
-     * method: updateBird
-     * parameter: String attribute, T value, Bird bird
-     * return: Boolean
-     * purpose: This is for updating a birds attribute. It will see which attribute will be updated for the bird and change the value for the bird.
+     * This is for updating a birds attribute. It will see which attribute will be updated for the bird and change the value for the bird.
+     * @param attribute Attribute of bird used to update.
+     * @param value New value of the attribute to update.
+     * @param ID ID of the bird.
+     * @return Boolean
      */
 
     static <T> boolean updateBird(String attribute, T value, int ID) {
@@ -233,17 +236,6 @@ public class BirdRepository {
         boolean updatedBird = false;
         String attributeName = attribute;
 
-
-
-        /* switch (attribute) {
-            case "Beak Shape":
-                attributeName = "Beak_Shape";
-                break;
-            case "Activity Pattern":
-                attributeName = "Activity_Pattern";
-                break;
-            default:
-        } */
         try {
 
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + databaseName, usersUsername, new String(usersPassword));
@@ -266,32 +258,32 @@ public class BirdRepository {
     }
 
     /**
-     * method: correctAttribute
-     * parameter: String attribute, String type
-     * return: boolean
-     * purpose: This is for making sure if the attribute is in the correct type. If it is, it will return true and if not, it will return false.
+     * This is for making sure if the attribute is in the correct type. If it is, it will return true and if not, it will return false.
+     * @param value The value of the attribute.
+     * @param type The data type of the attribute.
+     * @return boolean: True if the attribute is correct and false if not.
      */
 
-    static boolean correctAttribute(String attribute, String type) {
+    static boolean correctAttribute(String value, String type) {
 
         try {
 
             switch (type) {
                 case "Integer" -> {
 
-                    int newAttribute = Integer.parseInt(attribute);
+                    int newAttribute = Integer.parseInt(value);
                     return true;
 
                 }
                 case "Float" -> {
 
-                    float newAttribute = Float.parseFloat(attribute);
+                    float newAttribute = Float.parseFloat(value);
                     return true;
 
                 }
                 case "Gender" -> {
 
-                    char newAttribute = Character.toLowerCase(attribute.charAt(0));
+                    char newAttribute = Character.toLowerCase(value.charAt(0));
 
                     return newAttribute == 'm' || newAttribute == 'f';
 
@@ -309,38 +301,9 @@ public class BirdRepository {
     }
 
     /**
-     * method: attributeChoice
-     * parameter: String type, Scanner scanner
-     * return: <T> T
-     * purpose: This is for making sure that the attribute is in the correct type and will ask for a new input if it is not.
-     */
-
-    static <T> T attributeChoice(String type, Scanner scanner) {
-
-        String attributeEntry = scanner.nextLine();
-
-        while (!correctAttribute(attributeEntry, type)) {
-
-            System.out.println("Invalid input. Please try again. Type \"Exit\" to go to the main menu.");
-            attributeEntry = scanner.nextLine();
-
-            if (attributeEntry.equalsIgnoreCase("Exit")) {
-
-                return null;
-
-            }
-
-        }
-
-        return (T) attributeEntry;
-
-    }
-
-    /**
-     * method: highestAttribute
-     * parameter: String attribute
-     * return: Map<String, Integer>
-     * purpose: This is for sorting attribute values based on how much birds contain that value. It will then return a map of the sorted values.
+     * This is for sorting attribute values based on how much birds contain that value.
+     * @param attribute The attribute used for the function.
+     * @return {@literal Map<String, Integer>}: The map organized of the sorted values.
      */
 
     static Map<String, Integer> highestAttribute(String attribute) {
@@ -372,10 +335,12 @@ public class BirdRepository {
     }
 
     /**
-     * method: getConnection
-     * parameter: String username, char[] password, String database, String table
-     * return: Boolean
-     * purpose: This is for checking if a connection is valid and the credentials are correct.
+     * This is for checking if a connection is valid and the credentials are correct.
+     * @param username The username for the database.
+     * @param password The password for the database.
+     * @param database The database name.
+     * @param table The table used from the database.
+     * @return Boolean: True if the connection can be made and false if not.
      */
 
     static Boolean getConnection(String username, char[] password, String database, String table) {
@@ -394,10 +359,12 @@ public class BirdRepository {
     }
 
     /**
-     * method: setLoginInformation
-     * parameter: String username, char[] password, String database, String table
-     * return: Boolean
-     * purpose: This is for updating the database information to be used in the system.
+     * This is for updating the database information to be used in the system.
+     * @param username The username for the database.
+     * @param password The password for the database.
+     * @param database The database name.
+     * @param table The table used for the database.
+     * @return Boolean: True if the connection works and false if not.
      */
 
     static Boolean setLoginInformation(String username, char[] password, String database, String table) {
@@ -419,10 +386,8 @@ public class BirdRepository {
     }
 
     /**
-     * method: setTableRows
-     * parameter: N/A
-     * return: Boolean
-     * purpose: This adds new rows to the table based on what the rows are in the table in the database.
+     * This adds new rows to the table based on what the rows are in the table in the database.
+     * @return Boolean: True if successful and false if not.
      */
 
     static Boolean setTableRows() {
