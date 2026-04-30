@@ -149,6 +149,7 @@ public class MainFrame extends JFrame {
                         System.out.println(lineScanned);
 
                         BirdRepository.addBirdwithFileFormat(lineScanned);
+                        BirdRepository.setTableRows();
 
                     }
 
